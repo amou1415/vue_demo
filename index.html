@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+
+        <router-view></router-view>
+    </div>
+    <script src="./vue.js"></script>
+    <script src="./vue-router.js"></script>
+    <script>
+        var Profile = {
+            template: `
+            <div class="profile">
+            个人信息页<br>
+            姓名：Tom
+            <button @click="jumpToEdit">修改</button>
+            </div>
+            `,
+            // 如果需要延时跳转就不可以用router-link，会直接跳转
+            // 使用事件绑定之后使用函数进行编程式导航
+            methods: {
+                jumpToEdit() {
+                    console.log('每次点击都会触发');
+                    // 之前调用this.$route是获取路由信息
+                    // 现在要调用路由的导航方法，必须获取路由实例本身
+                    // this.$router是路由实例的获取方法
+                    // this指向这个组件
+                    setTimeout(() => {
+                        this.$router.push({
+                            path: '/edit'
+                        })
+                    }, 2000)
+                }
+            }
+        }
+        var Edit = {
+            template: `
+            <div class="profile">
+            编辑页面<br>
+            <input type="text" placeholder="请输入">
+            <button @click="jumpBack">确认</button>
+            </div>
+            `,
+            methods: {
+                jumpBack() {
+                    console.log('确认');
+                    setTimeout(() => {
+                        this.$router.back({
+                            path: '/profile'
+                        })
+                    }, 2000)
+                }
+            }
+        }
+        var routes = [{
+                path: '/profile',
+                component: Profile
+            },
+            {
+                path: '/edit',
+                component: Edit
+            }
+        ]
+        var router = new VueRouter({
+            routes
+        })
+        var app = new Vue({
+            el: "#app",
+            data: {
+
+            },
+            router
+        })
+    </script>
+</body>
+
+</html>
