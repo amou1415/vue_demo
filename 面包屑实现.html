@@ -7,17 +7,19 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
-
         .box {
             padding: 10px;
             margin: 10px;
             width: 50%;
             background-color: skyblue;
-            border:2px solid brown;
+            border: 2px solid brown;
         }
+
         .mianbao {
             border: none;
+            margin-bottom: 24px;
         }
+
         li {
             list-style: none;
             float: left;
@@ -38,29 +40,29 @@
     <script>
         var Student = {
             template: `
-                <div class="big_box">
+                <div class="box">
                     这里是学生页面组件
                     <ul class="mianbao box">
-                        这里可以渲染$route的所有属性
-                        <li v-if="(item,index) of $route.matched">
+                        <!--这里可以渲染$route的所有属性-->
+                        <li v-for="(item,index) of $route.matched">
                             <router-link :to="item.path">
-                                {{item.meta}}
+                                {{item.meta}}->
                             </router-link>
                         </li>
                     </ul>
                     <router-view></router-view>
                 </div>
             `,
-            watch:{
-                $route(){
+            watch: {
+                $route() {
                     console.log('是在watch打印');
                     console.log(this.$route);
-                    
+
                 }
             },
-            mounted(){
+            mounted() {
                 console.log(this.$route);
-                
+
             }
         }
         var StudentProfile = {
@@ -87,20 +89,21 @@
         var routes = [{
             path: '/student',
             component: Student,
+            meta: '学生页面',
             children: [{
                     path: 'profile',
                     component: StudentProfile,
-                    meta:'信息'
+                    meta: '信息'
                 },
                 {
                     path: 'post',
                     component: StudentPost,
-                    meta:'文章'
+                    meta: '文章'
                 },
                 {
                     path: 'friends',
                     component: StudentFriends,
-                    meta:'好友'
+                    meta: '好友'
                 }
             ]
         }]
