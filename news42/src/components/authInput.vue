@@ -1,12 +1,25 @@
 <template>
   <div>
-      <input type="text">
+      <input type="text" :class="isValid">
+      <input 
+      :class="{
+          err:!isValid,
+          success:isValid
+        }"
+      :type="type"
+      :placeholder="placeholder"
+      @input="checkValue">
   </div>
 </template>
 
 <script>
 export default {
-
+  data(){
+    return {
+      isValid:true
+    }
+  },
+  props:['type','placeholder']
 }
 </script>
 
